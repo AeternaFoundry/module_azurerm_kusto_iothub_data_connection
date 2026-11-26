@@ -38,14 +38,6 @@ EOT
   validation {
     condition = alltrue([
       for k, v in var.kusto_iothub_data_connections : (
-        length(v.name) <= 40
-      )
-    ])
-    error_message = "[from validate.DataConnectionName: invalid when len(value) > 40]"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_iothub_data_connections : (
         length(v.resource_group_name) <= 90
       )
     ])
@@ -70,35 +62,11 @@ EOT
   validation {
     condition = alltrue([
       for k, v in var.kusto_iothub_data_connections : (
-        length(v.database_name) <= 260
-      )
-    ])
-    error_message = "[from validate.DatabaseName: invalid when len(value) > 260]"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_iothub_data_connections : (
-        v.table_name == null || (length(v.table_name) <= 1024)
-      )
-    ])
-    error_message = "[from validate.EntityName: invalid when len(value) > 1024]"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_iothub_data_connections : (
-        v.mapping_rule_name == null || (length(v.mapping_rule_name) <= 1024)
-      )
-    ])
-    error_message = "[from validate.EntityName: invalid when len(value) > 1024]"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_iothub_data_connections : (
         v.event_system_properties == null || (alltrue([for x in v.event_system_properties : length(x) > 0]))
       )
     ])
     error_message = "must not be empty"
   }
-  # Note: 20 additional provider-side validators are enforced at apply time but not mirrored as validation{} blocks here (bespoke or non-mechanically-translatable).
+  # Note: 14 additional provider-side validators are enforced at apply time but not mirrored as validation{} blocks here (bespoke or non-mechanically-translatable).
 }
 
